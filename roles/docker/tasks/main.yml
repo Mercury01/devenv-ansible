@@ -1,0 +1,46 @@
+- name: Uninstall old versions
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - docker
+    - docker-engine
+    - docker.io
+
+- name: Install packages to allow apt to use a repository over HTTPS
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add Docker’s official GPG key (1/2)
+  become: yes
+  shell:
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: Add Docker's official GPG key (2/2)
+  become: yes
+  shell:
+    apt-key fingerprint 0EBFCD88
+
+- name: Add stable repository
+  become: yes
+  shell:
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+- name: Update the apt package index
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Install the latest version of Docker CE
+  become: yes
+  apt:
+    name: docker-ce
+    state: latest

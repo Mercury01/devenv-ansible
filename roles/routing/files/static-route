@@ -1,0 +1,11 @@
+#!/bin/sh
+# 
+# Need connnect the eth1 and add setting the `monitor` to `/etc/iproute2/rt_tables`.
+# Add it as follows.
+#
+# ```
+# 1 monitor
+# ```
+
+/sbin/ip rule add from 10.0.1.4 lookup monitor
+/sbin/ip route add default via 10.0.1.1 dev eth1 table monitor

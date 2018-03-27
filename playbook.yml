@@ -1,0 +1,10 @@
+- hosts: all
+  become: no
+  vars_files:
+    - vars.yml
+  roles:
+    - initialize
+    - routing
+    - docker
+    - docker-compose
+    - vim

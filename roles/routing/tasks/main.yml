@@ -1,0 +1,25 @@
+
+- name: It is already set
+  shell:
+    tail -n 1 /etc/iproute2/rt_tables | grep monitor || echo false
+  register:
+    reg_tbl
+
+- name: Modify the `/etc/iproute2/rt_tables`
+  become: yes
+  shell:
+    echo '1 monitor' >> /etc/iproute2/rt_tables
+  when:
+    reg_tbl != false
+
+- name: Copy the static-route to `/etc/network/if-up.d`
+  become: yes
+  copy:
+    src: static-route
+    dest: /etc/network/if-up.d
+    mode: 0755
+
+- name: Apply setting of routing
+  become: yes
+  command: /etc/network/if-up.d/static-route
+  ignore_errors: yes

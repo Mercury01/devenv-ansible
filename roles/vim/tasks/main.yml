@@ -1,0 +1,21 @@
+
+- name: Download install script
+  get_url:
+    url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
+    dest: "{{ home_dir }}/dein-vim-installer.sh"
+    mode: 0755
+
+- name: Install dein.vim to `.local/share/dein`
+  command:
+    "{{ home_dir }}/dein-vim-installer.sh {{ home_dir }}/.local/share/dein"
+
+- name: Git clone the `.vimrc` from github.com
+  git:
+    repo: https://github.com/ysknkd/fugashi-vim.git
+    dest: "{{ home_dir }}/.fugashi-vim"
+    clone: no
+    update: yes
+
+- name: link the `.vimrc`
+  command:
+    ln -s ~/.fugashi-vim/.vimrc ~/.vimrc
