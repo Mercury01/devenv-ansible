@@ -7,4 +7,5 @@
     - routing
     - docker
     - docker-compose
+    - bash-it
     - vim

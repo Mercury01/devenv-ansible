@@ -1,0 +1,25 @@
+# 
+# https://github.com/Bash-it/bash-it
+# 
+- name: Check out a clone of bash-it repo
+  git:
+    repo: https://github.com/Bash-it/bash-it.git
+    dest: "{{ home_dir }}/.bash-it"
+
+- name: Already installed bash-it
+  stat:
+    path: "{{ home_dir}}/.bashrc.bak"
+  register:
+    bashrc_bak
+
+- name: Run the script for install
+  command: "{{ home_dir }}/.bash-it/install.sh"
+  when:
+    not bashrc_bak.stat.exists
+
+- name: Modify the `.bashrc` for theme
+  lineinfile:
+    dest: "{{ home_dir }}/.bashrc"
+    state: present
+    regexp: BASH_IT_THEME='.*'
+    line: BASH_IT_THEME='clean'
