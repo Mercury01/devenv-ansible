@@ -3,9 +3,9 @@
   vars_files:
     - vars.yml
   roles:
-    - initialize
-    - routing
-    - docker
-    - docker-compose
-    - bash-it
-    - vim
+    - {role: 'initialize', tags: 'initialize'}
+    - {role: 'routing', tags: 'routing'}
+    - {role: 'docker', tags: 'docker'}
+    - {role: 'docker-compose', tags: 'docker-compose'}
+    - {role: 'bash-it', tags: 'bash-it'}
+    - {role: 'vim', tags: 'vim'}

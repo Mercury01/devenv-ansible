@@ -5,9 +5,17 @@
     dest: "{{ home_dir }}/dein-vim-installer.sh"
     mode: 0755
 
+- name: Already installed dein
+  stat:
+    path: "{{ home_dir }}/.local/share/dein"
+  register:
+    dein
+
 - name: Install dein.vim to `.local/share/dein`
   command:
     "{{ home_dir }}/dein-vim-installer.sh {{ home_dir }}/.local/share/dein"
+  when:
+    not dein.stat.exists
 
 - name: Git clone the `.vimrc` from github.com
   git:
@@ -16,6 +24,17 @@
     clone: no
     update: yes
 
+- name: Already has linked to fugashi-vim/.vimrc
+  stat:
+    path: "{{ home_dir }}/.vimrc"
+  register:
+    vimrc
+
 - name: link the `.vimrc`
-  command:
-    ln -s ~/.fugashi-vim/.vimrc ~/.vimrc
+  file:
+    src: "{{ home_dir }}/.fugashi-vim/.vimrc"
+    dest: "{{ home_dir }}/.vimrc"
+    state: link
+  when:
+    vimrc.stat.islnk is defined and vimrc.stat.islnk == false
+
