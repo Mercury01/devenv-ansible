@@ -1,0 +1,16 @@
+
+- name: Check out a clone of anyenv
+  git:
+    repo: https://github.com/riywo/anyenv
+    dest: "{{ anyenv_root }}"
+
+- name: Update the shell profile
+  lineinfile:
+    path: "{{ home_dir }}/.bash_profile"
+    line: "{{ item }}"
+  with_items:
+    - export PATH="$HOME/.anyenv/bin:$PATH"
+    - eval "$(anyenv init -)"
+
+- import_tasks: rbenv.yml
+  tags: rbenv

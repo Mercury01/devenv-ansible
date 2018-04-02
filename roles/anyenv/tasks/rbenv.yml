@@ -1,0 +1,53 @@
+
+- name: Check if rbenv is installed
+  stat:
+    path: "{{ anyenv_root }}/envs/rbenv"
+  register: rbenv
+
+# lookup
+# http://docs.ansible.com/ansible/latest/user_guide/playbooks_lookups.html
+
+- name: Install rbenv
+  command: anyenv install rbenv
+  environment:
+    PATH: "{{ anyenv_root }}/bin:{{ lookup('env', 'PATH') }}"
+  when: rbenv.stat.exists == false
+
+- name: Check if ruby is installed
+  command: cat "{{ rbenv_root }}/version"
+  register: installed_ruby_version
+
+# Setup build environment
+# https://github.com/rbenv/ruby-build/wiki
+
+- name: Setup build environment
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - autoconf
+    - bison
+    - build-essential
+    - libssl-dev
+    - libyaml-dev
+    - libreadline6-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libffi-dev
+    - libgdbm3
+    - libgdbm-dev
+  when: installed_ruby_version.stdout is version(ruby_version, '<')
+
+# envs
+# http://docs.ansible.com/ansible/latest/user_guide/playbooks_environment.html
+
+- name: Install the ruby and set the global ruby version
+  command: "{{ item }}"
+  environment:
+    PATH: "{{ rbenv_root }}/bin:{{ rbenv_root }}/plugins/ruby-build/bin:{{ lookup('env', 'PATH') }}"
+    RBENV_ROOT: "{{ rbenv_root }}"
+  with_items:
+    - "rbenv install {{ ruby_version }}"
+    - "rbenv global {{ ruby_version }}"
+  when: installed_ruby_version.stdout is version(ruby_version, '<')
