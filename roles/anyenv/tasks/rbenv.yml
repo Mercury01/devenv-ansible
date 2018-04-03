@@ -37,7 +37,7 @@
     - libffi-dev
     - libgdbm3
     - libgdbm-dev
-  when: installed_ruby_version.stdout is version(ruby_version, '<')
+  when: installed_ruby_version.stdout is undefined or installed_ruby_version.stdout is version(ruby_version, '<')
 
 # envs
 # http://docs.ansible.com/ansible/latest/user_guide/playbooks_environment.html
@@ -50,4 +50,4 @@
   with_items:
     - "rbenv install {{ ruby_version }}"
     - "rbenv global {{ ruby_version }}"
-  when: installed_ruby_version.stdout is version(ruby_version, '<')
+  when: installed_ruby_version.stdout is undefined or installed_ruby_version.stdout is version(ruby_version, '<')
