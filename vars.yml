@@ -1,9 +1,2 @@
 # home directory
 home_dir: /home/nakada
-
-# anyenv directory
-anyenv_root: "{{ home_dir }}/.anyenv"
-rbenv_root: "{{ anyenv_root }}/envs/rbenv"
-
-# ruby version
-ruby_version: 2.5.1

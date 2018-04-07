@@ -1,21 +1,24 @@
-
-- name: Check if rbenv is installed
-  stat:
-    path: "{{ anyenv_root }}/envs/rbenv"
-  register: rbenv
-
-# lookup
-# http://docs.ansible.com/ansible/latest/user_guide/playbooks_lookups.html
-
+---
 - name: Install rbenv
-  command: anyenv install rbenv
+  command: "{{ anyenv_root }}/bin/anyenv install rbenv"
+  args:
+    creates: "{{ anyenv_root }}/envs/rbenv"
   environment:
-    PATH: "{{ anyenv_root }}/bin:{{ lookup('env', 'PATH') }}"
-  when: rbenv.stat.exists == false
+    PATH: "{{ anyenv_root }}/bin:{{ ansible_env.PATH }}"
+
+- name: Check the verions file exists
+  stat:
+    path: "{{ rbenv_root }}/version"
+  register:
+    rb_version_file
 
 - name: Check if ruby is installed
-  command: cat "{{ rbenv_root }}/version"
-  register: installed_ruby_version
+  command: "cat {{ rbenv_root }}/version"
+  register: rb_version
+  changed_when: false
+  when: rb_version_file.stat.exists
+  tags:
+    - skip_ansible_lint
 
 # Setup build environment
 # https://github.com/rbenv/ruby-build/wiki
@@ -24,8 +27,9 @@
   become: yes
   apt:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items:
+    - curl
     - autoconf
     - bison
     - build-essential
@@ -37,17 +41,14 @@
     - libffi-dev
     - libgdbm3
     - libgdbm-dev
-  when: installed_ruby_version.stdout is undefined or installed_ruby_version.stdout is version(ruby_version, '<')
-
-# envs
-# http://docs.ansible.com/ansible/latest/user_guide/playbooks_environment.html
+  when: rb_version.stdout is undefined or rb_version.stdout is version(ruby_version, '<')
 
 - name: Install the ruby and set the global ruby version
   command: "{{ item }}"
   environment:
-    PATH: "{{ rbenv_root }}/bin:{{ rbenv_root }}/plugins/ruby-build/bin:{{ lookup('env', 'PATH') }}"
+    PATH: "{{ rbenv_root }}/bin:{{ rbenv_root }}/plugins/ruby-build/bin:{{ ansible_env.PATH }}"
     RBENV_ROOT: "{{ rbenv_root }}"
   with_items:
     - "rbenv install {{ ruby_version }}"
     - "rbenv global {{ ruby_version }}"
-  when: installed_ruby_version.stdout is undefined or installed_ruby_version.stdout is version(ruby_version, '<')
+  when: rb_version.stdout is undefined or rb_version.stdout is version(ruby_version, '<')

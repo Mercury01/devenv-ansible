@@ -1,8 +1,15 @@
+---
+- name: Install git
+  become: yes
+  apt:
+    name: git
+    state: present
 
 - name: Check out a clone of anyenv
   git:
     repo: https://github.com/riywo/anyenv
     dest: "{{ anyenv_root }}"
+    version: 7402a93a5a1e6856b2ac8a9a9153a02136c77b83
 
 - name: Copy the .bash_profile to a remote
   copy:
@@ -12,11 +19,17 @@
 
 - name: Update the shell profile
   lineinfile:
-    path: "{{ home_dir }}/.bash_profile"
+    path: "{{ ansible_env.HOME }}/.bashrc"
     line: "{{ item }}"
   with_items:
     - export PATH="$HOME/.anyenv/bin:$PATH"
     - eval "$(anyenv init -)"
+
+# 'envs' directory is necessary to install an other env.
+- name: Create the envs directory
+  file:
+    path: "{{ anyenv_root }}/envs"
+    state: directory
 
 - import_tasks: rbenv.yml
   tags: rbenv

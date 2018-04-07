@@ -1,0 +1,9 @@
+---
+# anyenv root directory
+anyenv_root: "{{ ansible_env.HOME }}/.anyenv"
+
+# rbenv root directory
+rbenv_root: "{{ anyenv_root }}/envs/rbenv"
+
+# ruby version
+ruby_version: 2.5.1
