@@ -49,12 +49,12 @@ $ molecule test
 However, not all roles have a molecule. Applying molecule little by little...
 
 * [x] anyenv
-* [ ] bash-it
+* [x] bash-it
 * [ ] docker
 * [ ] docker-compose
 * [ ] initialize
 * [ ] routing
-* [ ] vim
+* [x] vim
 
 #### Note
 
@@ -62,7 +62,7 @@ However, not all roles have a molecule. Applying molecule little by little...
 
     ```
     $ cd roles/<role_directory>
-    $ molecule scenario -r <role_name> -s default
+    $ molecule init scenario -r <role_name> -s default
     --> Initializing new scenario default...
     Initialized scenario in /path/to//role/molecule/default successfully.
     $ tree molecule
@@ -85,9 +85,14 @@ However, not all roles have a molecule. Applying molecule little by little...
 1. Write a target platform to `molecule/default/molecule.yml`.
 
     ```yaml
+    dependency:
+      name: galaxy
+      enabled: false # does not use galaxy
+    ...
     platforms:
     - name: instance
         image: ubuntu:16.04
+    ...
     ```
 
 1. Test code write to `molecule/default/tests/test_default.py`. 

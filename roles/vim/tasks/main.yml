@@ -1,40 +1,41 @@
+---
+- name: Install git
+  become: yes
+  apt:
+    name: git
+    state: present
 
 - name: Download install script
   get_url:
     url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
-    dest: "{{ home_dir }}/dein-vim-installer.sh"
+    dest: "{{ ansible_env.HOME }}/dein-vim-installer.sh"
     mode: 0755
 
 - name: Already installed dein
   stat:
-    path: "{{ home_dir }}/.local/share/dein"
-  register:
-    dein
+    path: "{{ ansible_env.HOME }}/.local/share/dein"
+  register: dein
 
 - name: Install dein.vim to `.local/share/dein`
   command:
-    "{{ home_dir }}/dein-vim-installer.sh {{ home_dir }}/.local/share/dein"
+    "{{ ansible_env.HOME }}/dein-vim-installer.sh {{ ansible_env.HOME }}/.local/share/dein"
   when:
     not dein.stat.exists
 
 - name: Git clone the `.vimrc` from github.com
   git:
     repo: https://github.com/ysknkd/fugashi-vim.git
-    dest: "{{ home_dir }}/.fugashi-vim"
-    clone: no
-    update: yes
+    dest: "{{ ansible_env.HOME }}/.fugashi-vim"
+    version: 63eec1ffdabdf72d2d5c86fb5de1c2376982fdd3
 
 - name: Already has linked to fugashi-vim/.vimrc
   stat:
-    path: "{{ home_dir }}/.vimrc"
-  register:
-    vimrc
+    path: "{{ ansible_env.HOME }}/.vimrc"
+  register: vimrc
 
 - name: link the `.vimrc`
   file:
-    src: "{{ home_dir }}/.fugashi-vim/.vimrc"
-    dest: "{{ home_dir }}/.vimrc"
+    src: "{{ ansible_env.HOME }}/.fugashi-vim/.vimrc"
+    dest: "{{ ansible_env.HOME }}/.vimrc"
     state: link
-  when:
-    vimrc.stat.islnk is defined and vimrc.stat.islnk == false
-
+  when: vimrc.stat.exists == false or vimrc.stat.islnk is defined and vimrc.stat.islnk == false
