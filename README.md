@@ -49,12 +49,12 @@ $ molecule test
 However, not all roles have a molecule. Applying molecule little by little...
 
 * [x] anyenv
-* [ ] bash-it
+* [x] bash-it
 * [ ] docker
 * [ ] docker-compose
 * [ ] initialize
 * [ ] routing
-* [ ] vim
+* [x] vim
 
 #### Note
 
