@@ -2,7 +2,7 @@
 ## Ansible for my development environment
 ### Prerequisite
 
-* ansible 2.5.x or above
+* ansible 2.5.0 or above
 
 ### Usage
 
