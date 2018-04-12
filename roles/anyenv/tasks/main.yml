@@ -14,7 +14,7 @@
 - name: Copy the .bash_profile to a remote
   copy:
     src: .bash_profile
-    dest: "{{ home_dir }}/.bash_profile"
+    dest: "{{ ansible_env.HOME }}/.bash_profile"
     force: no
 
 - name: Update the shell profile
