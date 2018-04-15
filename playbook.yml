@@ -18,4 +18,5 @@
     - {role: 'bash-it', tags: 'bash-it'}
     - {role: 'vim', tags: 'vim'}
     - {role: 'anyenv', tags: 'anyenv'}
-    - {role: 'gnome', tags: 'gnome'}
+# for high performance computer
+#    - {role: 'gnome', tags: 'gnome'}

@@ -33,3 +33,6 @@
 
 - import_tasks: rbenv.yml
   tags: rbenv
+
+- import_tasks: pyenv.yml
+  tags: pyenv
