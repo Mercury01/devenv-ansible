@@ -1,2 +1,8 @@
-[hosts]
+[remote]
 52.187.57.171
+
+[vagrant]
+127.0.0.1
+
+[vagrant:vars]
+ansible_connection=local

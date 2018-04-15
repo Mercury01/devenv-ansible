@@ -1,7 +1,5 @@
-- hosts: all
+- hosts: remote
   become: no
-  vars_files:
-    - vars.yml
   roles:
     - {role: 'initialize', tags: 'initialize'}
     - {role: 'routing', tags: 'routing'}
@@ -10,3 +8,14 @@
     - {role: 'bash-it', tags: 'bash-it'}
     - {role: 'vim', tags: 'vim'}
     - {role: 'anyenv', tags: 'anyenv'}
+
+- hosts: vagrant
+  become: no
+  roles:
+    - {role: 'initialize', tags: 'initialize'}
+    - {role: 'docker', tags: 'docker'}
+    - {role: 'docker-compose', tags: 'docker-compose'}
+    - {role: 'bash-it', tags: 'bash-it'}
+    - {role: 'vim', tags: 'vim'}
+    - {role: 'anyenv', tags: 'anyenv'}
+    - {role: 'gnome', tags: 'gnome'}
