@@ -6,11 +6,16 @@
   environment:
     PATH: "{{ anyenv_root }}/bin:{{ ansible_env.PATH }}"
 
+- name: Install pyenv-virtualenv
+  git:
+    repo: https://github.com/pyenv/pyenv-virtualenv.git
+    dest: "{{ pyenv_root }}/plugings/"
+    version: e67dd07f1bbc21852a3e2d8d8ae83e39ddc93847
+
 - name: Check the verions file exists
   stat:
     path: "{{ pyenv_root }}/version"
-  register:
-    py_version_file
+  register: py_version_file
 
 - name: Check if python is installed
   command: "cat {{ pyenv_root }}/version"
@@ -54,3 +59,10 @@
     - "pyenv install {{ python3_version }}"
     - "pyenv global {{ python2_version }}"
   when: py_version.stdout is undefined or py_version.stdout is version(python_version, '<')
+
+- name: Check if pyenv-virtualenv is installed
+  stat:
+    path: "{{ pyenv_root }}/plugings/pyenv-virtualenv"
+  register:
+    virtualenv
+
