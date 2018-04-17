@@ -1,0 +1,30 @@
+---
+- name: Install ndenv
+  command: "{{ anyenv_root }}/bin/anyenv install ndenv"
+  args:
+    creates: "{{ anyenv_root }}/envs/ndenv"
+  environment:
+    PATH: "{{ anyenv_root }}/bin:{{ ansible_env.PATH }}"
+
+- name: Check the verions file exists
+  stat:
+    path: "{{ ndenv_root }}/version"
+  register: nd_version_file
+
+- name: Check if node is installed
+  command: "cat {{ ndenv_root }}/version"
+  register: nd_version
+  changed_when: false
+  when: nd_version_file.stat.exists
+  tags:
+    - skip_ansible_lint
+
+- name: Install the node and set the global node version
+  command: "{{ item }}"
+  environment:
+    PATH: "{{ ndenv_root }}/bin:{{ ndenv_root }}/plugins/node-build/bin:{{ ansible_env.PATH }}"
+    NDENV_ROOT: "{{ ndenv_root }}"
+  with_items:
+    - "ndenv install {{ node_version }}"
+    - "ndenv global {{ node_version }}"
+  when: nd_version.stdout is undefined or nd_version.stdout is version(node_version, '<')
