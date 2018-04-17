@@ -2,11 +2,16 @@
 # anyenv root directory
 anyenv_root: "{{ ansible_env.HOME }}/.anyenv"
 
+# ---- ruby
+rbenv_root: "{{ anyenv_root }}/envs/rbenv"
+ruby_version: 2.5.1
+
 # ---- python
 pyenv_root: "{{ anyenv_root }}/envs/pyenv"
 python2_version: 2.7.14
 python3_version: 3.6.5
 
-# ---- ruby
-rbenv_root: "{{ anyenv_root }}/envs/rbenv"
-ruby_version: 2.5.1
+# ---- node
+ndenv_root: "{{ anyenv_root }}/envs/ndenv"
+node_version: 8.11.1
+
