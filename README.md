@@ -51,6 +51,7 @@ However, not all roles have a molecule. Applying molecule little by little...
 * [x] anyenv
   * [x] rbenv
   * [ ] pyenv
+  * [ ] ndenv
 * [x] bash-it
 * [ ] docker
 * [ ] docker-compose
