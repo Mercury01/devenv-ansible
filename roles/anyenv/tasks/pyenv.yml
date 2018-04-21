@@ -9,7 +9,7 @@
 - name: Install pyenv-virtualenv
   git:
     repo: https://github.com/pyenv/pyenv-virtualenv.git
-    dest: "{{ pyenv_root }}/plugings/"
+    dest: "{{ pyenv_root }}/plugins/pyenv-virtualenv"
     version: e67dd07f1bbc21852a3e2d8d8ae83e39ddc93847
 
 - name: Check the verions file exists
