@@ -10,6 +10,17 @@
 $ ansible-playbook -i hosts playbook.yml -u <user_name> --private-key=<path_to_private_key>
 ```
 
+#### WSL
+
+`apt` install the ansible version `2.0.x`. Install ansible with pip.
+
+* Prerequisite
+    * Python 3.6.5 via anyenv/pyenv/pyenv-virtualenv
+
+```
+$ ansible-playbook -i hosts playbook.yml -l vagrant -u <user_name> --ask-pass
+```
+
 ## Development and testing
 
 This project use [molecule](https://github.com/metacloud/molecule) for unit test. 
