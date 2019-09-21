@@ -1,9 +1,14 @@
 - hosts: local
   connection: local
   become: no
+  gather_facts: no
   roles:
     - {role: 'initialize', tags: 'initialize'}
     - {role: 'docker', tags: 'docker'}
     - {role: 'docker-compose', tags: 'docker-compose'}
+    - {role: 'fuck', tags: 'fuck'}
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt -y install python
 
 

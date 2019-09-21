@@ -1,0 +1,16 @@
+- name: Uninstall old versions
+  become: yes
+  apt:
+    name: ['python3-dev', 'python3-pip', 'python3-setuptools']
+    state: absent
+
+- name: Install the latest version of dependencies
+  become: yes
+  apt:
+    name: ['python3-dev', 'python3-pip', 'python3-setuptools']
+    state: latest
+
+- name: Install fuck
+  become: yes
+  shell:
+    pip3 install thefuck
