@@ -1,0 +1,11 @@
+- name: Uninstall old version
+  become: yes
+  apt:
+    name: 'maven'
+    state: absent
+
+- name: Install new version
+  become: yes
+  apt:
+    name: 'maven'
+    state: latest

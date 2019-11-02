@@ -8,6 +8,7 @@
     - {role: 'docker', tags: 'docker'}
     - {role: 'docker-compose', tags: 'docker-compose'}
     - {role: 'fuck', tags: 'fuck'}
+    - {role: 'maven', tags: 'maven'}
     - {role: 'nodejs', tags: 'nodejs'}
   # pre_tasks:
   #   - name: 'install python2'

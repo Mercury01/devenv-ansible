@@ -6,8 +6,14 @@
 
 ### Usage
 
+Run all tasks:
 ```
-$ ansible-playbook -i hosts playbook.yml -u <user_name> --private-key=<path_to_private_key>
+$ ./ansible.sh
+```
+
+Run specific task:
+```
+$ ./ansible.sh maven,docker-compose
 ```
 
 ## Development and testing
