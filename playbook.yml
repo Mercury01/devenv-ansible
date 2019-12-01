@@ -1,8 +1,8 @@
 - hosts: local
   connection: local
   become: no
-  gather_facts: yes
-  # gather_subset: hardware
+  # gather_facts: yes
+  gather_subset: hardware
   roles:
     - {role: 'initialize', tags: 'initialize'}
     - {role: 'docker', tags: 'docker'}
@@ -10,6 +10,7 @@
     - {role: 'fuck', tags: 'fuck'}
     - {role: 'maven', tags: 'maven'}
     - {role: 'nodejs', tags: 'nodejs'}
+    - {role: 'sublime', tags: 'sublime'}
   # pre_tasks:
   #   - name: 'install python2'
   #     raw: sudo apt -y install python
