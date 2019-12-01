@@ -11,8 +11,6 @@
     - {role: 'maven', tags: 'maven'}
     - {role: 'nodejs', tags: 'nodejs'}
     - {role: 'sublime', tags: 'sublime'}
-  # pre_tasks:
-  #   - name: 'install python2'
-  #     raw: sudo apt -y install python
+    - {role: 'terminator', tags: 'terminator'}
 
 

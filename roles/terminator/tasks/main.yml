@@ -1,0 +1,11 @@
+- name: Uninstall old version
+  become: yes
+  apt:
+    name: 'terminator'
+    state: absent
+
+- name: Install new version
+  become: yes
+  apt:
+    name: 'terminator'
+    state: latest
